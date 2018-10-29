@@ -1,0 +1,145 @@
+/* ==============================
+	common styles - start
+===============================*/
+.wrapper {
+	padding: 40px;
+}
+.nav {
+	padding: 30px 40px;
+	background-color: #ccc;
+}
+.nav a {
+	padding: 10px 15px;
+	background-color: #535252;
+	background-color: #393838;
+	border-radius: 5px;
+	font-size: 22px;
+	color: #fff;
+	text-decoration: none;
+}
+.nav a.active-page,
+.nav a:hover {
+	background-color: #1612CC;
+}
+.task {
+	margin-bottom: 50px;
+}
+.task h3 {
+	font-size: 1.5em;
+	font-weight: 700;
+}
+/* ==============================
+	common styles - end
+===============================*/
+
+/* ==============================
+	index1.html - start
+===============================*/
+.textareas {
+	display: -webkit-flex;
+	display: -moz-flex;
+	display: -ms-flex;
+	display: -o-flex;
+	display: flex;
+}
+.textareas textarea {
+	margin-right: 50px;
+	padding: 10px;
+	resize: none;
+}
+
+.gallery img {
+	height: 150px;
+	display: inline-block;
+	margin: 2px;
+	vertical-align: top;
+}
+.loader {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.loader.loaded {
+	opacity: 0;
+	transition: all .3s linear;
+}
+.loader {
+	/*position: fixed;*/
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	background: rgba(255,255,255,.9);
+}
+.loader-progress {
+	width: 80%;
+	height: 50px;
+	margin: auto;
+	background: #f1f1f1;
+	position: relative;
+}
+.loader-progress-bar {
+	height: 100%;
+	width: 0;
+	background: #C7EFB3;
+	transition: all .3s linear;
+}
+.loader-percent {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	text-align: center;
+	font: 20px/50px sans-serif;
+}
+/* ==============================
+	index1.html - end
+===============================*/
+
+/* ==============================
+	index2.html - start
+===============================*/
+.generator-events {
+	display: -webkit-flex;
+	display: -moz-flex;
+	display: -ms-flex;
+	display: -o-flex;
+	display: flex;
+}
+.squares {
+	display: -webkit-flex;
+	display: -moz-flex;
+	display: -ms-flex;
+	display: -o-flex;
+	display: flex;
+	-webkit-flex-wrap: wrap;
+	-moz-flex-wrap: wrap;
+	-ms-flex-wrap: wrap;
+	-o-flex-wrap: wrap;
+	flex-wrap: wrap;
+	width: 700px;
+	margin-right: 50px;
+}
+.square {
+	display: -webkit-flex;
+	display: -moz-flex;
+	display: -ms-flex;
+	display: -o-flex;
+	display: flex;
+	justify-content: center;
+	-ms-align-items: center;
+	align-items: center;
+	width: 60px;
+	height: 60px;
+	margin: 5px;
+	border: 1px solid #000;
+	box-sizing: border-box;
+}
+/* ==============================
+	index2.html - end
+===============================*/
+
+.red {
+	color: red;
+}
