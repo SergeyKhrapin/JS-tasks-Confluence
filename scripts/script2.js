@@ -11,9 +11,10 @@
 		btnClick = document.querySelector('.click'),
 		btnResult = document.querySelector('.result'),
 		btnReset = document.querySelector('.reset'),
-		i = 1;
+		i = 1,
+		squareNumber = 100;
 
-	for (i; i <= 100; i++) {
+	for (i; i <= squareNumber; i++) {
 		squares.insertAdjacentHTML('afterbegin', '<div class="square" data-click="0"></div>');
 	}
 
@@ -31,7 +32,7 @@
 			j = 0,
 			k;
 
-		for (j; j <= 100; j++) {
+		for (j; j <= squareNumber; j++) {
 			k = Math.round(Math.random() * 99);
 			square[k].dispatchEvent(click);
 		}		
