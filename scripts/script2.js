@@ -87,10 +87,20 @@ class AdminFunctionality {
 		this.errorMessages = {
 			productTitle: 'Required field. Product title must contain at least 1 character.',
 			productSku: 'Required field. Product SKU must contain at least 1 character.',
-			productPrice: 'Required field. Product price must be numeric value.',
+			productPrice: 'Required field. Product price must be a positive numeric value.',
 		};
 
 		this.events = () => {
+			const fiels = [this.elements.productTitle, this.elements.productSku, this.elements.productPrice],
+				  errorMessages = this.errorMessages;
+
+			const callbackForInputEvent = (event) => {
+				this.validateFormValue(fiels, errorMessages, event);
+			};
+
+			this.elements.productTitle.addEventListener('input', callbackForInputEvent);
+			this.elements.productSku.addEventListener('input', callbackForInputEvent);
+			this.elements.productPrice.addEventListener('input', callbackForInputEvent);
 			this.elements.productForm.addEventListener('submit', this.submitForm);
 		};
 
@@ -146,66 +156,61 @@ class AdminFunctionality {
 		* Validate a form fields values
 		* @params {array} fields - array of the objects elements
 		*         {object} errorMessages - error messages
+		* 		  {object} e - event object, optional parameter, is used when input event is invoked on each field
 		* @return {boolean} - is form valid or not
 		*/
-		this.validateFormValue = (fields, errorMessages) => {
-			let isValid,
-				input = {},
-				errorMessage;
+		this.validateFormValue = (fields, errorMessages, e) => {
+			let isValid = true,
+				i = 0;
+				
+			const fieldsLength = fields.length;
 
-			fields.forEach((input, i) => {
-				errorMessage = errorMessages[input.id];
+			for (i; i < fieldsLength; i += 1) {
+				const input = fields[i], 
+					  errorMessage = errorMessages[input.id];
 
-				if ('productPrice' === input.id) {
-					isValid = (!isNaN(input.value) && input.value) ? true : false;
-				} else {
-					isValid = input.value ? true : false;
+			 	if (e && e.target.id != input.id) {
+					continue;
 				}
 
-				if (!isValid && !input.parentElement.classList.contains('has-error')) {
+				let isFieldValueValid;
+
+				if ('productPrice' === input.id) {
+					isFieldValueValid = (!isNaN(input.value) && input.value && input.value > 0) ? true : false;
+				} else {
+					isFieldValueValid = input.value ? true : false;
+				}
+
+				if (!isFieldValueValid && !input.parentElement.classList.contains('has-error')) {
 					input.parentElement.insertAdjacentHTML('afterend', `
 						<span class='${input.id} text-danger'>${errorMessage}</span>
 					`);
 					input.parentElement.classList.add('has-error');
-				} else if (isValid && input.parentElement.classList.contains('has-error')) {
+				} else if (isFieldValueValid && input.parentElement.classList.contains('has-error')) {
 					const error = document.querySelector(`.${input.id}`);
 					error.remove();
 					input.parentElement.classList.remove('has-error');
 				}
-			})
+
+				if (!isFieldValueValid) {
+					isValid = false;					
+				}				
+			}
 
 			return isValid;
 		};
 
-		/**
-		* Get element by its selector
-		* @param {string} sel - element's selector
-		* @return {object} - object element
-		*/
-		this.getElement = (sel) => {
-			let el = {};
-
-			if (sel.indexOf('#') === 0) {
-				sel = sel.slice(sel.indexOf('#') + 1);
-				el = document.getElementById(sel);
-			} else {
-				el = document.querySelector(sel)
+		this.getElements = () => {
+			this.elements = {
+				productsList: document.getElementById('products-list'),
+				productForm: document.getElementById('add-product-form'),
+				productTitle: document.getElementById('productTitle'),
+				productSku: document.getElementById('productSku'),
+				productPrice: document.getElementById('productPrice'),
+				productDesc: document.getElementById('productDesc'),
+				productAvailability: document.querySelector('input[name=pAvailability]'),
 			}
-
-			return el;
 		};
-	}
-
-	getElements () {
-		this.elements = {
-			productsList: this.getElement('#products-list'),
-			productForm: this.getElement('#add-product-form'),
-			productTitle: this.getElement('#productTitle'),
-			productSku: this.getElement('#productSku'),
-			productPrice: this.getElement('#productPrice'),
-			productDesc: this.getElement('#productDesc'),
-			productAvailability: this.getElement('input[name=pAvailability]'),
-		}
 	}
 };
 
@@ -215,82 +220,3 @@ document.addEventListener('DOMContentLoaded', () => {
 /*======================================
 	Admin functionality: add product to store - end
 ======================================*/
-
-
-
-// Admin functionality: add product to store
-// Functional Programming
-
-// (function() {
-// 	var productsList = document.getElementById('products-list'),
-// 		pForm = document.getElementById('add-product-form'),
-// 		pTitle = document.getElementById('pTitle'),
-// 		pSku = document.getElementById('pSKU'),
-// 		pPrice = document.getElementById('pPrice'),
-// 		pDesc = document.getElementById('pDesc'),
-// 		pAvailability = document.querySelector('input[name=pAvailability]'),
-// 		errors = [];
-
-// 	function trimming() {
-// 		for (var i = 0; i < arguments.length; i++) {
-// 			arguments[i].value = arguments[i].value.trim();
-// 		}
-// 	}
-
-// 	function validation(input, errorMessage) {
-// 		var isValid;
-
-// 		if (input.id == 'pPrice') {
-// 			isValid = (!isNaN(input.value) && input.value) ? true : false;
-// 		} else {
-// 			isValid = input.value ? true : false;
-// 		}
-
-// 		if (!isValid && !input.parentElement.classList.contains('has-error')) {
-// 			input.parentElement.insertAdjacentHTML('afterend', `
-// 				<span class='${input.id} text-danger'>${errorMessage}</span>
-// 			`);
-// 			input.parentElement.classList.add('has-error');
-// 			errors.push('error');
-// 		} else if (isValid && input.parentElement.classList.contains('has-error')) {
-// 			var error = document.querySelector(`.${input.id}`);
-// 			error.remove();
-// 			input.parentElement.classList.remove('has-error');
-// 			errors.pop('error');
-// 		}
-// 	}
-
-// 	pForm.addEventListener('submit', function(e) {
-// 		e.preventDefault();
-
-// 		trimming(pTitle, pSku, pPrice, pDesc);
-
-// 		validation(pTitle, 'Required field. Product title must contain at least 1 character.');
-// 		validation(pSku, 'Required field. Product SKU must contain at least 1 character.');
-// 		validation(pPrice, 'Required field. Product price must be numeric value.');
-
-// 		pAvailability.value = pAvailability.checked ? 'in stock' : 'out of stock';
-
-// 		if (!errors.length) {
-// 			pPrice.value += "$";
-
-// 			productsList.insertAdjacentHTML('beforeend', `
-// 				<tr>
-// 					<th>${pSku.value}</th>
-// 					<td>${pTitle.value}</td>
-// 					<td>${pPrice.value}</td>
-// 					<td>${pDesc.value}</td>
-// 					<td>${pAvailability.value}</td>
-// 				</tr>
-// 			`);
-
-// 			for (var i = 0; i < pForm.elements.length; i++) {
-// 				if (pForm.elements[i].type == 'checkbox') {
-// 					pForm.elements[i].checked = false;
-// 				} else {
-// 					pForm.elements[i].value = '';
-// 				}
-// 			}
-// 		}
-// 	})
-// })();
