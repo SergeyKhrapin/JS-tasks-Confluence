@@ -14,7 +14,7 @@
 		i = 1,
 		squareNumber = 100;
 
-	for (i; i <= squareNumber; i++) {
+	for (i; i <= squareNumber; i += 1) {
 		squares.insertAdjacentHTML('afterbegin', '<div class="square" data-click="0"></div>');
 	}
 
@@ -22,46 +22,49 @@
 
 	square.forEach(function(el) {
 		el.addEventListener('click', function() {
-			var clickCounter = el.getAttribute('data-click');
-			el.setAttribute('data-click', ++clickCounter);
+			var clickCounter = el.dataset.click;
+			el.dataset.click++;
 		})
-	})
+	});
 
 	btnClick.addEventListener('click', function(e) {
 		var click = new Event('click'),
 			j = 0,
 			k;
 
-		for (j; j <= squareNumber; j++) {
+		for (j; j <= squareNumber; j += 1) {
 			k = Math.round(Math.random() * 99);
 			square[k].dispatchEvent(click);
 		}		
-	})
+	}, false);
 
 	btnResult.addEventListener('click', function() {
 		square.forEach(function(el) {
-			el.textContent = el.getAttribute('data-click');
+			var clickNumber = el.dataset.click;
 
-			if (el.textContent >= 100) {
+			el.textContent = clickNumber;
+
+			if (clickNumber > 100) {
 				el.style.backgroundColor = "#F50202";
-			} else if (el.textContent < 100 && el.textContent >= 75) {
+			} else if (clickNumber > 75) {
 				el.style.backgroundColor = "#FC8505";
-			} else if (el.textContent < 75 && el.textContent >= 50) {
+			} else if (clickNumber > 50) {
 				el.style.backgroundColor = "#FCCF05";
-			} else if (el.textContent < 50 && el.textContent >= 25) {
+			} else if (clickNumber > 25) {
 				el.style.backgroundColor = "#FCF6A9";
 			}
 		})
-	})
+	}, false);
 
 	btnReset.addEventListener('click', function() {
 		square.forEach(function(el) {
-			el.setAttribute('data-click', 0);
+			el.dataset.click = 0;
 			el.style.backgroundColor = '#FFF';
 			el.textContent = '';
 		})
-	})
+	}, false);
 })();
+
 /*======================================
 	Generator for squares event - end
 ======================================*/
