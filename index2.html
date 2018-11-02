@@ -64,13 +64,13 @@
 			            <h2>Add new Product</h2>
 			            <form action="#" id="add-product-form" name="addproductform">
 			                <div class="form-group">
-			                    <label for="productTitle">Product title</label>
+			                    <label for="productTitle">Product title *</label>
 			                    <input type="text" name="pTitle" class="form-control" id="productTitle">
 			                </div>
 			                <div class="row">
 			                    <div class="col-xs-2">
 			                        <div class="form-group">
-			                            <label for="productSku">Product SKU</label>
+			                            <label for="productSku">Product SKU *</label>
 			                            <div class="input-group">
 			                                <div class="input-group-addon">#</div>
 			                                <input type="text" name="pSku" class="form-control" id="productSku">
@@ -82,7 +82,7 @@
 			                <div class="row">
 			                    <div class="col-xs-2">
 			                        <div class="form-group">
-			                            <label for="productPrice">Product Price</label>
+			                            <label for="productPrice">Product Price *</label>
 			                            <div class="input-group">
 			                                <div class="input-group-addon">$</div>
 			                                <input type="text" name="pPrice" class="form-control" id="productPrice">
@@ -101,6 +101,8 @@
 			                        <label><input type="checkbox" name="pAvailability">Is available</label>
 			                    </div>
 			                </div>
+
+			                <p>* - required fields</p>
 			 
 			                <button id="addToCart" class="btn btn-success">Add Product</button>
 			            </form>
